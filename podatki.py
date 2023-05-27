@@ -17,21 +17,22 @@ users = requests.get('https://jsonplaceholder.typicode.com/users').json()
 
 cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
 
-def pridobi_posts(id_col='id'):
+def pridobi_posts():
     for post in posts:
-        select = f'SELECT id, title, body, user_id from posts WHERE {id_col} = %s';
-        cur.execute(select, (post['id'],))
-    
+        cur.execute("""
+            SELECT id, title, body, user_id from posts WHERE title = %s
+            """, (post['title'],))
+        
         row = cur.fetchone()
         if row:
             post['id'] = row[0]
-            return post
+        else:
+            cur.execute("""
+                INSERT INTO posts (title, body, user_id)
+                VALUES (%s, %s, %s) RETURNING id; """, (post['title'], post['body'], post['userId']))
+            post['id'] = cur.fetchone()[0]
+            conn.commit()
 
-        cur.execute(
-            """INSERT INTO posts (id, title, body, user_id) VALUES (%s, %s, %s, %s)""",
-            (post['id'], post['title'], post['body'], post['userId'])
-        )
-    conn.commit()
 
 
 def pridobi_comments(id_col='id'):
@@ -99,30 +100,41 @@ def kreiraj_post(title, body, user_id):
         'userId': user_id
     }
 
-    #cur.execute("""
-    #    SELECT id, title, body, user_id from posts WHERE title = %s
-    #    """, (post['title'],))
-    #    
-    #row = cur.fetchone()
-    #if row:
-    #    post['id'] = row[0]
-    #    return post
+    cur.execute("""
+        SELECT id, title, body, user_id from posts WHERE title = %s and body = %s
+        """, (post['title'], post['body'],))
+        
+    row = cur.fetchone()
+    if row:
+        post['id'] = row[0]
+        return post
     
-    cur.execute(
-        "INSERT INTO posts (title, body, user_id) VALUES (%s, %s, %s) RETURNING id;",
-        (post['title'], post['body'], post['userId'])
-    )
+    cur.execute("""
+        INSERT INTO posts (title, body, user_id)
+        VALUES (%s, %s, %s) RETURNING id; """, (post['title'], post['body'], post['userId'],))
     post['id'] = cur.fetchone()[0]
     conn.commit()
+    return post
 
+def brisanje_posta(id_post):
+    cur.execute("""
+    DELETE FROM posts WHERE id = %s""", (id_post,))
+    cur.execute("""
+    DELETE FROM comments WHERE post_id = %s""", (id_post,))
+    conn.commit()
 
+def posodabljanje_posta(id_posta, title, body):
+    cur.execute("""
+    UPDATE posts SET title=%s, body=%s WHERE id=%s""", (title, body, id_posta,))
+    conn.commit()
 
-
-pridobi_posts('id')
+#pridobi_posts()
 #pridobi_comments('id')
 #pridobi_todos('id')
 #pridobi_users('id')
 #pridobi_specificne_commente(3,'post_id')
-kreiraj_post('tralal','tralalal',3)
+#kreiraj_post('juhuhu','juhuhu',3)
+#brisanje_posta(100)
+posodabljanje_posta(102, 'lalala', 'lalala')
 cur.close()
 
