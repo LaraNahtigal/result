@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  app:
+    container_name: my_app
+    image: aplikacija
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_URL=postgresql://postgres:qwert2001@flask_db:5432/lnDatabase
+    depends_on:
+      - db
+  db:
+    container_name: my_db
+    image: postgres:12
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=qwert2001
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=lnDatabase
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
