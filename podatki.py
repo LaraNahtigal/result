@@ -2,16 +2,12 @@ import requests
 import psycopg2, psycopg2.extras
 
 
-conn = psycopg2.connect(
-    host="localhost",
-    database="lnDatabase",
-    user="postgres",
-    password="qwert2001"
-)
+def ustvari_bazo(cur):
+    
+    cur.execute(open("baza.sql", "r").read())
+    
 
-cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
-
-def pridobi_podatke():
+def pridobi_podatke(conn, cur):
     posts = requests.get('https://jsonplaceholder.typicode.com/posts').json()
     comments = requests.get('https://jsonplaceholder.typicode.com/comments').json()
     todos = requests.get('https://jsonplaceholder.typicode.com/todos').json()
@@ -81,9 +77,3 @@ def pridobi_podatke():
             user['id'] = cur.fetchone()[0]
     
     conn.commit()
-
-
-pridobi_podatke()
-
-cur.close()
-

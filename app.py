@@ -2,18 +2,21 @@ import psycopg2
 from bottle import get, delete, post, run
 import os
 import json
+from podatki import *
 
 
 SERVER_PORT = os.environ.get('BOTTLE_PORT', 8080)
 RELOADER = os.environ.get('BOTTLE_RELOADER', True)
-DB_PORT = os.environ.get('POSTGRES_PORT', 5432)
+DB_NAME = os.environ.get("DB_NAME", "postgres")
+DB_PORT = os.environ.get('DB_PORT', 5432)
+DB_HOST = os.environ.get("DB_HOST", "localhost")
 
 conn = psycopg2.connect(
-    host="localhost",
-    dbname="lnDatabase",
+    host=DB_HOST,
+    dbname=DB_NAME,
     user="postgres",
     password="qwert2001",
-    port="5432"
+    port=DB_PORT
 )
 
 
@@ -137,7 +140,7 @@ def pridobivanje_users():
     return(json.dumps(vsi_userji))
 
 
-@get('/pridobi-poste/<id_userja>')
+@get('/pridobi-poste/<id_userja:int>')
 def pridobivanje_postov_userja(id_userja):
     vsi_posti = []
     cur.execute(""" SELECT id, title, body FROM posts WHERE user_id = %s """, (id_userja,))
@@ -151,7 +154,7 @@ def pridobivanje_postov_userja(id_userja):
     return(json.dumps(vsi_posti))
 
 
-@get('/pridobi-poste/<id_posta>')
+@get('/pridobi-poste/<id_posta:int>')
 def pridobivanje_posta_s_commenti(id_posta):
     vsi_commenti = []
     post = {}
@@ -174,5 +177,10 @@ def pridobivanje_posta_s_commenti(id_posta):
     post['comments'] = vsi_commenti
     return(json.dumps(post))
 
+
+
 if __name__ == '__main__':
-   run(host='localhost', port=SERVER_PORT, reloader=RELOADER)
+   ustvari_bazo(cur)
+   pridobi_podatke(conn, cur)
+
+   run(host='0.0.0.0', port=SERVER_PORT, reloader=RELOADER, debug=True)

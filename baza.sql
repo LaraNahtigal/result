@@ -1,4 +1,4 @@
--- Active: 1685724060648@@localhost@5432@lnDatabase
+-- Active: 1686135395871@@localhost@5432@postgres
 CREATE TABLE IF NOT EXISTS posts (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255),

@@ -18,6 +18,5 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["python", "-u", "app.py", "--host=0.0.0.0", "--port=8080"]
-
-#CMD [ "python", "run", "--host=0.0.0.0", "--port=8080"]
+CMD ["python", "app.py"] 
+# ["python", "-u", "app.py", "--host=0.0.0.0", "--port=8080"]
