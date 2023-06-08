@@ -9,7 +9,7 @@ services:
       - 5004:8080
     environment:
       DB_NAME: postgres  
-      DB_HOST: postgres # kot ime containerja baze!
+      DB_HOST: postgres 
       DB_PORT: 5432 
 
     depends_on:

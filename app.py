@@ -140,7 +140,7 @@ def pridobivanje_users():
     return(json.dumps(vsi_userji))
 
 
-@get('/pridobi-poste/<id_userja:int>')
+@get('/pridobi-poste-userja/<id_userja:int>')
 def pridobivanje_postov_userja(id_userja):
     vsi_posti = []
     cur.execute(""" SELECT id, title, body FROM posts WHERE user_id = %s """, (id_userja,))
@@ -176,7 +176,6 @@ def pridobivanje_posta_s_commenti(id_posta):
     post['userId'] = rows[0][3]
     post['comments'] = vsi_commenti
     return(json.dumps(post))
-
 
 
 if __name__ == '__main__':
