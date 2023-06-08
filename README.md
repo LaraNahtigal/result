@@ -19,7 +19,7 @@ Aplikacija vam omogoča več funkcij:
 - izbisati post glede na njegov id s komando: <br />
     ('DELETE') *http://localhost:5004/brisanje-posta/<'id_posta'>*
 - spreminjane že obstoječega posta s komando: <br />
-    ('POST') *http://localhost:5004/posodabljanje-posta/<'id_posta'>/<'title'>/<'body'>*, kjer napišemo nov title in body
+    ('POST') *http://localhost:5004/posodabljanje-posta/<'id_posta'>/<'title'>/<'body'>*
 - pridobivanje vseh obstoječih post-ov s komando:<br />
     ('GET') *http://localhost:5004/posti*
 - pridobivanje vseh obstoječih komentarjev s komando:<br />

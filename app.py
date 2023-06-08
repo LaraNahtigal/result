@@ -92,7 +92,7 @@ def pridobivanje_posts():
         vsi_posti.append(post)
     return(json.dumps(vsi_posti))
 
-@get('/komentarje')
+@get('/komentarji')
 def pridobivanje_comments():
     vsi_commenti = []
     cur.execute(""" SELECT * FROM comments """)
@@ -108,7 +108,7 @@ def pridobivanje_comments():
     return(json.dumps(vsi_commenti))
 
 
-@get('/todose')
+@get('/todosi')
 def pridobivanje_todos():
     vsi_todosi = []
     cur.execute(""" SELECT * FROM todos """)
@@ -123,7 +123,7 @@ def pridobivanje_todos():
     return(json.dumps(vsi_todosi))
     
 
-@get('/userje')
+@get('/userji')
 def pridobivanje_users():
     vsi_userji = []
     cur.execute(""" SELECT * FROM users """)
@@ -145,12 +145,13 @@ def pridobivanje_postov_userja(id_userja):
     vsi_posti = []
     cur.execute(""" SELECT id, title, body FROM posts WHERE user_id = %s """, (id_userja,))
     rows = cur.fetchall()
-    for row in rows:
-        post = {}
-        post['id'] = row[0]
-        post['title'] = row[1]
-        post['body'] = row[2]
-        vsi_posti.append(post)
+    if rows:
+        for row in rows:
+            post = {}
+            post['id'] = row[0]
+            post['title'] = row[1]
+            post['body'] = row[2]
+            vsi_posti.append(post)
     return(json.dumps(vsi_posti))
 
 
