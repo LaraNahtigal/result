@@ -8,7 +8,8 @@ V podatkovni bazi se v tabelah users, comments, todos in posts nahajajo podatki 
 Aplikacijo je mogoče zagnati s pomočjo Docker-ja. V bash terminalu morate uporabiti komando:
 - docker compose up -d postgres
 - docker compose build
-- docker compose up app \n
+- docker compose up app 
+
 Za uporabo funkcij, ki jih nudi aplikacija, potrebujete API platformo kot je naprimer **POSTMAN**.
 
 ## Funkcije: 
