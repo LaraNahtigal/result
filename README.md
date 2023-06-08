@@ -13,9 +13,9 @@ Za uporabo funkcij, ki jih nudi aplikacija, potrebujete API platformo kot je nap
 
 ## Funkcije: 
 Aplikacija vam omogoča več funkcij:
-- kreirati nov post z dodajanjem naslova, bodyja in user-ja s komando ('POST') *http://localhost:5004/kreiraj-post/<title>/<body>/<user_id>*
+- kreirati nov post z dodajanjem naslova, bodyja in user-ja s komando ('POST') *http://localhost:5004/kreiraj-post/<title>/<'body'>/<user_id>*
 - izbisati post glede na njegov id s komando ('DELETE') *http://localhost:5004/brisanje-posta/<id_posta>*
-- spreminjane že obstoječega posta s komando ('POST') *http://localhost:5004/posodabljanje-posta/<id_posta>/<title>/<body>, kjer napišemo nov title in body*
+- spreminjane že obstoječega posta s komando ('POST') *http://localhost:5004/posodabljanje-posta/<id_posta>/<title>/<body>*, kjer napišemo nov title in body
 - pridobivanje vseh obstoječih post-ov s komando ('GET') *http://localhost:5004/posti*
 - pridobivanje vseh obstoječih komentarjev s komando ('GET') *http://localhost:5004/komentarji*
 - pridobivanje vseh obstoječih uporabnikov s komando ('GET') *http://localhost:5004/userji*
